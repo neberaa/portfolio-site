@@ -1,0 +1,123 @@
+// SCSS variables are information about icon's compiled state, stored under its original file name
+//
+// .icon-home {
+//   width: $icon-home-width;
+// }
+//
+// The large array-like variables contain all information about a single icon
+// $icon-home: x y offset_x offset_y width height total_width total_height image_path;
+//
+// At the bottom of this section, we provide information about the spritesheet itself
+// $spritesheet: width height image $spritesheet-sprites;
+$apple-name: 'apple';
+$apple-x: 0px;
+$apple-y: 0px;
+$apple-offset-x: 0px;
+$apple-offset-y: 0px;
+$apple-width: 305px;
+$apple-height: 314px;
+$apple-total-width: 347px;
+$apple-total-height: 314px;
+$apple-image: 'sprite.png';
+$apple: (0px, 0px, 0px, 0px, 305px, 314px, 347px, 314px, 'sprite.png', 'apple', );
+$checked-name: 'checked';
+$checked-x: 315px;
+$checked-y: 0px;
+$checked-offset-x: -315px;
+$checked-offset-y: 0px;
+$checked-width: 32px;
+$checked-height: 32px;
+$checked-total-width: 347px;
+$checked-total-height: 314px;
+$checked-image: 'sprite.png';
+$checked: (315px, 0px, -315px, 0px, 32px, 32px, 347px, 314px, 'sprite.png', 'checked', );
+$heart-name: 'heart';
+$heart-x: 315px;
+$heart-y: 42px;
+$heart-offset-x: -315px;
+$heart-offset-y: -42px;
+$heart-width: 32px;
+$heart-height: 32px;
+$heart-total-width: 347px;
+$heart-total-height: 314px;
+$heart-image: 'sprite.png';
+$heart: (315px, 42px, -315px, -42px, 32px, 32px, 347px, 314px, 'sprite.png', 'heart', );
+$star-name: 'star';
+$star-x: 315px;
+$star-y: 84px;
+$star-offset-x: -315px;
+$star-offset-y: -84px;
+$star-width: 32px;
+$star-height: 32px;
+$star-total-width: 347px;
+$star-total-height: 314px;
+$star-image: 'sprite.png';
+$star: (315px, 84px, -315px, -84px, 32px, 32px, 347px, 314px, 'sprite.png', 'star', );
+$spritesheet-width: 347px;
+$spritesheet-height: 314px;
+$spritesheet-image: 'sprite.png';
+$spritesheet-sprites: ($apple, $checked, $heart, $star, );
+$spritesheet: (347px, 314px, 'sprite.png', $spritesheet-sprites, );
+
+// The provided mixins are intended to be used with the array-like variables
+//
+// .icon-home {
+//   @include sprite-width($icon-home);
+// }
+//
+// .icon-email {
+//   @include sprite($icon-email);
+// }
+//
+// Example usage in HTML:
+//
+// `display: block` sprite:
+// <div class="icon-home"></div>
+//
+// To change `display` (e.g. `display: inline-block;`), we suggest using a common CSS class:
+//
+// // CSS
+// .icon {
+//   display: inline-block;
+// }
+//
+// // HTML
+// <i class="icon icon-home"></i>
+@mixin sprite-width($sprite) {
+  width: nth($sprite, 5);
+}
+
+@mixin sprite-height($sprite) {
+  height: nth($sprite, 6);
+}
+
+@mixin sprite-position($sprite) {
+  $sprite-offset-x: nth($sprite, 3);
+  $sprite-offset-y: nth($sprite, 4);
+  background-position: $sprite-offset-x  $sprite-offset-y;
+}
+
+@mixin sprite-image($sprite) {
+  $sprite-image: nth($sprite, 9);
+  background-image: url(#{$sprite-image});
+}
+
+@mixin sprite($sprite) {
+  @include sprite-image($sprite);
+  @include sprite-position($sprite);
+  @include sprite-width($sprite);
+  @include sprite-height($sprite);
+}
+
+// The `sprites` mixin generates identical output to the CSS template
+//   but can be overridden inside of SCSS
+//
+// @include sprites($spritesheet-sprites);
+@mixin sprites($sprites) {
+  @each $sprite in $sprites {
+    $sprite-name: nth($sprite, 10);
+    .#{$sprite-name} {
+      @include sprite($sprite);
+    }
+  }
+}
